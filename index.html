@@ -1,197 +1,141 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teka-Teki Seru 50 Level</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e1e2f, #2d2b55);
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .container {
-            background-color: #252440;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 0;
-            color: #ffcc00;
-        }
-        .level-badge {
-            display: inline-block;
-            background-color: #ff4757;
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .question {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        input[type="text"] {
-            width: 80%;
-            padding: 12px;
-            border: 2px solid #4834d4;
-            border-radius: 8px;
-            background-color: #1e1e2f;
-            color: white;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-            margin-bottom: 15px;
-        }
-        input[type="text"]:focus {
-            border-color: #ffcc00;
-        }
-        button {
-            padding: 12px 24px;
-            background-color: #6c5ce7;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background-color: #a29bfe;
-        }
-        .message {
-            margin-top: 15px;
-            font-weight: bold;
-            min-height: 24px;
-        }
-        .correct { color: #2ed573; }
-        .wrong { color: #ff4757; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akses Video Terkunci</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 80%;
+      margin-bottom: 12px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+    .video-container {
+      display: none;
+      margin-top: 20px;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* Rasio 16:9 */
+      height: 0;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .link-list {
+      text-align: left;
+      margin-top: 20px;
+    }
+    .link-list a {
+      color: #007bff;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Teka-Teki Seru</h1>
-    <div class="level-badge" id="levelDisplay">Level 1 / 50</div>
-    <div class="question" id="questionDisplay">Loading...</div>
-    <input type="text" id="answerInput" placeholder="Taip jawapan di sini..." autocomplete="off">
-    <br>
-    <button onclick="checkAnswer()">Hantar Jawapan</button>
-    <div class="message" id="messageDisplay"></div>
-</div>
+  <div class="container">
+    <!-- Form Kata Sandi -->
+    <div id="login-box">
+      <h2>Masukkan Kata Sandi</h2>
+      <p>Halaman ini dilindungi. Masukkan kata sandi untuk melihat video.</p>
+      <input type="password" id="passwordInput" placeholder="Masukkan password...">
+      <br>
+      <button onclick="checkPassword()">Buka Video</button>
+      <p id="errorMsg" class="error-message">Kata sandi salah! Coba lagi.</p>
+    </div>
 
-<script>
-const quizData = [
-    { q: "Benda apa yang kalau dipotong malah tambah tinggi?", a: "seluar" },
-    { q: "Monyet apa yang paling suka maju ke depan?", a: "monyetir" },
-    { q: "Ayam apa yang paling besar?", a: "ayam semesta" },
-    { q: "Gajah apa yang belalainya pendek?", a: "gajah pesek" },
-    { q: "Sayur apa yang pandai menyanyi?", a: "kangkung" },
-    { q: "Kenapa pokok di tepi jalan kena tebang?", a: "sebab tak boleh jalan" },
-    { q: "Ikan apa yang banyak mata?", a: "ikan sebaldi" },
-    { q: "Pintu apa yang tidak boleh didorong?", a: "pintu teropong" },
-    { q: "Kucing apa yang kuno?", a: "kucinga" },
-    { q: "Kenapa matahari tenggelam?", a: "sebab tak pandai berenang" },
-    { q: "Buah apa yang paling panas?", a: "buah naga" },
-    { q: "Nasi apa yang paling cepat?", a: "nasi goreng" },
-    { q: "Jam apa yang selalunya mati?", a: "jam jamban" },
-    { q: "Roti apa yang boleh terbang?", a: "roti helikopter" },
-    { q: "Kasut apa yang tiada bertali?", a: "kasut kuda" },
-    { q: "Rumah apa yang paling luas?", a: "rumahkan" },
-    { q: "Benda apa yang selalu datang tapi tak pernah sampai?", a: "esok" },
-    { q: "Lembu apa yang selalu dipeluk?", a: "lembut" },
-    { q: "Lampu apa yang kalau dipecahkan keluar orangnya?", a: "lampu jiran" },
-    { q: "Susu apa yang boleh dipukul?", a: "susu kambing" },
-    { q: "Burung apa yang tak boleh terbang?", a: "burung mati" },
-    { q: "Daun apa yang tidak boleh dimakan?", a: "daun telinga" },
-    { q: "Bas apa yang ada banyak mata?", a: "bas sekolah" },
-    { q: "Pokok apa yang paling tua?", a: "pokok pisang" },
-    { q: "Benda apa yang mempunyai banyak gigi tapi tak pernah menggigit?", a: "sikat" },
-    { q: "Kunci apa yang boleh buat orang menyanyi?", a: "kunci gitar" },
-    { q: "Bunga apa yang warnanya tidak merah?", a: "bunga tahi ayam" },
-    { q: "Air apa yang paling keras?", a: "ais" },
-    { q: "Kertas apa yang boleh terbang?", a: "layang layang" },
-    { q: "Ular apa yang paling panjang?", a: "ular antarabangsa" },
-    { q: "Benda apa yang berjalan tanpa kaki?", a: "jam" },
-    { q: "Topi apa yang paling besar?", a: "topi kelembu" },
-    { q: "Kancil apa yang berjalan cepat?", a: "kancil kereta" },
-    { q: "Bebek apa yang berjalan geleng-geleng?", a: "bebek mabuk" },
-    { q: "Kereta apa yang tidak ada roda?", a: "kereta kabel" },
-    { q: "Singa apa yang tidak makan daging?", a: "singapura" },
-    { q: "Ulat apa yang paling berbahaya?", a: "ulat bulu" },
-    { q: "Penyakit apa yang suka mengantuk?", a: "penyakit malas" },
-    { q: "Pencuri apa yang paling comel?", a: "pencuri hati" },
-    { q: "Ayam apa yang paling wangi?", a: "ayam goreng" },
-    { q: "Batu apa yang paling ringan?", a: "batu apung" },
-    { q: "Gajah apa yang paling gembira?", a: "gajah menang" },
-    { q: "Buku apa yang tidak boleh dibaca?", a: "buku lali" },
-    { q: "Laut apa yang tidak ada air?", a: "peta" },
-    { q: "Gunung apa yang paling tinggi?", a: "gunung everest" },
-    { q: "Mata apa yang paling besar?", a: "matahari" },
-    { q: "Kipas apa yang tidak guna elektrik?", a: "kipas tangan" },
-    { q: "Baju apa yang tidak pernah basah?", a: "baju renang" },
-    { q: "Kuda apa yang paling perlahan?", a: "kuda catur" },
-    { q: "Tahniah! Anda menjawab semua soalan!", a: "" }
-];
+    <!-- Konten Video (Disembunyikan secara default) -->
+    <div id="content-box" class="video-container">
+      <h2>Video 1</h2>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/SReeJ9PlIHY" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
 
-let currentLevel = 0;
+      <h2>Video 2</h2>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/gQeZimKH85s" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
 
-function loadQuestion() {
-    if (currentLevel < quizData.length - 1) {
-        document.getElementById("levelDisplay").innerText = `Level ${currentLevel + 1} / 50`;
-        document.getElementById("questionDisplay").innerText = quizData[currentLevel].q;
-        document.getElementById("answerInput").value = "";
-        document.getElementById("messageDisplay").innerText = "";
-    } else {
-        document.getElementById("levelDisplay").innerText = "TAMAT!";
-        document.getElementById("questionDisplay").innerText = "🎉 Tahniah! Anda berjaya menyelesaikan semua 50 level teka-teki! 🎉";
-        document.getElementById("answerInput").style.display = "none";
-        document.querySelector("button").style.display = "none";
-        document.getElementById("messageDisplay").innerText = "";
+      <!-- Tautan Langsung -->
+      <div class="link-list">
+        <h3>Tautan Video:</h3>
+        <ul>
+          <li><a href="https://youtu.be/SReeJ9PlIHY?si=NUSB2ArvtLnnqiny" target="_blank">https://youtu.be/SReeJ9PlIHY?si=NUSB2ArvtLnnqiny</a></li>
+          <li><a href="https://youtu.be/gQeZimKH85s?si=vtmSA3nNmrj3JrGC" target="_blank">https://youtu.be/gQeZimKH85s?si=vtmSA3nNmrj3JrGC</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const passwordInput = document.getElementById('passwordInput').value;
+      const errorMsg = document.getElementById('errorMsg');
+      const loginBox = document.getElementById('login-box');
+      const contentBox = document.getElementById('content-box');
+
+      // Kata sandi yang ditentukan
+      const correctPassword = "1234";
+
+      if (passwordInput === correctPassword) {
+        loginBox.style.display = 'none';
+        contentBox.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+      }
     }
-}
-
-function checkAnswer() {
-    const userAnswer = document.getElementById("answerInput").value.trim().toLowerCase();
-    const correctAnswer = quizData[currentLevel].a.toLowerCase();
-    const messageEl = document.getElementById("messageDisplay");
-
-    if (userAnswer === correctAnswer) {
-        messageEl.className = "message correct";
-        messageEl.innerText = "Betul! Lanjut ke level seterusnya...";
-        currentLevel++;
-        setTimeout(loadQuestion, 1200);
-    } else {
-        messageEl.className = "message wrong";
-        messageEl.innerText = "Salah! Cuba lagi ya.";
-    }
-}
-
-document.getElementById("answerInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-        checkAnswer();
-    }
-});
-
-loadQuestion();
-</script>
+  </script>
 
 </body>
 </html>
