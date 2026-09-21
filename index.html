@@ -1,141 +1,78 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Akses Video Terkunci</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      background-color: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 600px;
-      text-align: center;
-    }
-    input[type="password"] {
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      width: 80%;
-      margin-bottom: 12px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      display: none;
-    }
-    .video-container {
-      display: none;
-      margin-top: 20px;
-    }
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%; /* Rasio 16:9 */
-      height: 0;
-      overflow: hidden;
-      margin-bottom: 20px;
-      border-radius: 8px;
-    }
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .link-list {
-      text-align: left;
-      margin-top: 20px;
-    }
-    .link-list a {
-      color: #007bff;
-      text-decoration: none;
-      word-break: break-all;
-    }
-    .link-list a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Video Downloader</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .box { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 20px; display: none; }
+        .download-btn { display: inline-block; padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+        img { width: 100%; border-radius: 8px; margin-top: 10px; }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- Form Kata Sandi -->
-    <div id="login-box">
-      <h2>Masukkan Kata Sandi</h2>
-      <p>Halaman ini dilindungi. Masukkan kata sandi untuk melihat video.</p>
-      <input type="password" id="passwordInput" placeholder="Masukkan password...">
-      <br>
-      <button onclick="checkPassword()">Buka Video</button>
-      <p id="errorMsg" class="error-message">Kata sandi salah! Coba lagi.</p>
+    <div class="box">
+        <h2>TikTok Downloader</h2>
+        <p>Masukkan link TikTok untuk mengunduh video (Tanpa Watermark):</p>
+        
+        <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@..." required>
+        <button onclick="downloadTikTok()">Proses Video</button>
+
+        <div id="loading" style="display:none; margin-top:15px;">Memproses video...</div>
+
+        <div class="result" id="resultArea">
+            <img id="coverImg" src="" alt="Thumbnail Video">
+            <p id="videoTitle" style="font-size:14px; margin-top:8px;"></p>
+            <a id="downloadBtn" class="download-btn" target="_blank" download>Download Video MP4</a>
+        </div>
     </div>
 
-    <!-- Konten Video (Disembunyikan secara default) -->
-    <div id="content-box" class="video-container">
-      <h2>Video 1</h2>
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/SReeJ9PlIHY" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+    <script>
+        async function downloadTikTok() {
+            const url = document.getElementById('tiktokUrl').value;
+            const loading = document.getElementById('loading');
+            const resultArea = document.getElementById('resultArea');
 
-      <h2>Video 2</h2>
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/gQeZimKH85s" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+            if (!url) {
+                alert("Masukkan URL TikTok terlebih dahulu!");
+                return;
+            }
 
-      <!-- Tautan Langsung -->
-      <div class="link-list">
-        <h3>Tautan Video:</h3>
-        <ul>
-          <li><a href="https://youtu.be/SReeJ9PlIHY?si=NUSB2ArvtLnnqiny" target="_blank">https://youtu.be/SReeJ9PlIHY?si=NUSB2ArvtLnnqiny</a></li>
-          <li><a href="https://youtu.be/gQeZimKH85s?si=vtmSA3nNmrj3JrGC" target="_blank">https://youtu.be/gQeZimKH85s?si=vtmSA3nNmrj3JrGC</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+            loading.style.display = 'block';
+            resultArea.style.display = 'none';
 
-  <script>
-    function checkPassword() {
-      const passwordInput = document.getElementById('passwordInput').value;
-      const errorMsg = document.getElementById('errorMsg');
-      const loginBox = document.getElementById('login-box');
-      const contentBox = document.getElementById('content-box');
+            try {
+                // Menggunakan API Gratisan dari TikWM
+                const response = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
+                const resData = await response.json();
 
-      // Kata sandi yang ditentukan
-      const correctPassword = "1234";
+                if (resData.code === 0) {
+                    const data = resData.data;
+                    document.getElementById('coverImg').src = data.cover;
+                    document.getElementById('videoTitle').innerText = data.title;
+                    
+                    // Link download tanpa watermark
+                    document.getElementById('downloadBtn').href = data.play; 
 
-      if (passwordInput === correctPassword) {
-        loginBox.style.display = 'none';
-        contentBox.style.display = 'block';
-      } else {
-        errorMsg.style.display = 'block';
-      }
-    }
-  </script>
+                    loading.style.display = 'none';
+                    resultArea.style.display = 'block';
+                } else {
+                    alert("Gagal mengambil video. Pastikan link video TikTok valid/publik!");
+                    loading.style.display = 'none';
+                }
+            } catch (error) {
+                alert("Terjadi kesalahan sistem/koneksi.");
+                loading.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
 </html>
+
