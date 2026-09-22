@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniSearch - Mesin Pencari Anime</title>
+    <title>NevSearch - Nonton Anime Gratis & Cari Anime</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -37,14 +37,14 @@
             z-index: -2;
         }
 
-        /* Overlay Tipis Transparan agar Teks Tetap Terbaca Tanpa Mengaburkan Video */
+        /* Overlay Tipis Transparan */
         .video-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35); /* Transparansi tipis */
+            background: rgba(0, 0, 0, 0.35);
             z-index: -1;
         }
 
@@ -81,7 +81,7 @@
             margin-top: -30px;
         }
 
-        /* Logo Anime Search */
+        /* Logo NevSearch */
         .logo {
             font-size: 64px;
             font-weight: 700;
@@ -91,7 +91,7 @@
             text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
         }
 
-        .logo span.ani {
+        .logo span.nev {
             color: #ff4757;
             text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
         }
@@ -189,6 +189,7 @@
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .tag:hover {
@@ -241,68 +242,73 @@
     <div class="video-overlay"></div>
 
     <header>
+        <a href="https://www.bilibili.tv/id/index" target="_blank"><i class="fa-solid fa-play"></i> Streaming BStation</a>
         <a href="https://myanimelist.net/topanime.php" target="_blank">Top Anime</a>
         <a href="https://myanimelist.net/anime/season" target="_blank">Musim Ini</a>
-        <a href="https://myanimelist.net/manga.php" target="_blank">Manga</a>
     </header>
 
     <div class="main-container">
         <div class="logo">
-            <span class="ani">Ani</span><span class="search">Search</span>
+            <span class="nev">Nev</span><span class="search">Search</span>
         </div>
 
         <form class="search-form" id="searchForm">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Cari judul anime, karakter, atau genre..." required autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Cari anime untuk ditonton gratis..." required autocomplete="off">
             </div>
 
             <div class="buttons">
-                <button type="submit" class="btn">Penelusuran Anime</button>
-                <button type="button" class="btn" id="randomBtn">Saya Lagi Beruntung</button>
+                <button type="submit" class="btn"><i class="fa-solid fa-play"></i> Tonton Gratis</button>
+                <button type="button" class="btn" id="infoBtn"><i class="fa-solid fa-circle-info"></i> Info MAL</button>
             </div>
         </form>
 
         <div class="quick-tags">
-            <a href="#" onclick="quickSearch('Action')" class="tag">#Action</a>
-            <a href="#" onclick="quickSearch('Isekai')" class="tag">#Isekai</a>
-            <a href="#" onclick="quickSearch('Romance')" class="tag">#Romance</a>
-            <a href="#" onclick="quickSearch('Shonen')" class="tag">#Shonen</a>
-            <a href="#" onclick="quickSearch('Fantasy')" class="tag">#Fantasy</a>
+            <a onclick="quickWatch('Solo Leveling')" class="tag">#Solo Leveling</a>
+            <a onclick="quickWatch('One Piece')" class="tag">#One Piece</a>
+            <a onclick="quickWatch('Jujutsu Kaisen')" class="tag">#Jujutsu Kaisen</a>
+            <a onclick="quickWatch('Demon Slayer')" class="tag">#Demon Slayer</a>
+            <a onclick="quickWatch('Naruto')" class="tag">#Naruto</a>
         </div>
     </div>
 
     <footer>
-        <div>&copy; 2026 AniSearch - Khusus Pencinta Anime</div>
+        <div>&copy; 2026 NevSearch - Penelusuran & Streaming Anime Gratis</div>
         <div>
+            <a href="https://www.bilibili.tv" target="_blank">Bilibili</a>
             <a href="https://myanimelist.net" target="_blank">MyAnimeList</a>
-            <a href="https://anilist.co" target="_blank">AniList</a>
         </div>
     </footer>
 
     <script>
         const searchForm = document.getElementById('searchForm');
         const searchInput = document.getElementById('searchInput');
-        const randomBtn = document.getElementById('randomBtn');
+        const infoBtn = document.getElementById('infoBtn');
 
-        // Submit Pencarian ke MyAnimeList
+        // Fungsi Tonton Gratis (Mencari langsung video streaming anime di Bilibili/Bstation)
         searchForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const query = searchInput.value.trim();
             if (query) {
-                window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(query)}`, '_blank');
+                window.open(`https://www.bilibili.tv/id/search-result?q=${encodeURIComponent(query)}`, '_blank');
             }
         });
 
-        // Tombol Random / Musim Ini
-        randomBtn.addEventListener('click', function() {
-            window.open('https://myanimelist.net/anime/season', '_blank');
+        // Tombol Info (Mencari detail/informasi di MyAnimeList)
+        infoBtn.addEventListener('click', function() {
+            const query = searchInput.value.trim();
+            if (query) {
+                window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(query)}`, '_blank');
+            } else {
+                window.open('https://myanimelist.net/anime/season', '_blank');
+            }
         });
 
-        // Tag Cepat
-        function quickSearch(tag) {
-            searchInput.value = tag;
-            window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(tag)}`, '_blank');
+        // Tag Cepat untuk Langsung Nonton Gratis
+        function quickWatch(title) {
+            searchInput.value = title;
+            window.open(`https://www.bilibili.tv/id/search-result?q=${encodeURIComponent(title)}`, '_blank');
         }
     </script>
 </body>
