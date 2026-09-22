@@ -13,7 +13,7 @@
         }
 
         /* Video Latar Belakang */
-        .bg-video {
+        #bgVideo {
             position: fixed;
             top: 0;
             left: 0;
@@ -21,6 +21,7 @@
             height: 100vh;
             object-fit: cover;
             z-index: -1;
+            background-color: #111; /* Warna hitam saat video loading */
         }
 
         body {
@@ -32,9 +33,9 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
-        /* Kartu Konten Transparan Glassmorphism */
+        /* Kartu Konten Transparan */
         .box {
-            background: rgba(255, 255, 255, 0.35); /* Transparansi dibuat lebih tipis */
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 30px 25px;
@@ -50,7 +51,6 @@
             font-size: 1.6rem;
             color: #111;
             margin-bottom: 8px;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
         }
 
         p.desc {
@@ -72,10 +72,6 @@
             color: #111;
         }
 
-        input::placeholder {
-            color: #666;
-        }
-
         button {
             width: 100%;
             padding: 12px;
@@ -86,12 +82,6 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 1rem;
-            transition: background 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-        }
-
-        button:hover {
-            background: #0056b3;
         }
 
         .result {
@@ -109,12 +99,6 @@
             border-radius: 10px;
             margin-top: 12px;
             font-weight: bold;
-            box-sizing: border-box;
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
-        }
-
-        .download-btn:hover {
-            background: #218838;
         }
 
         img {
@@ -125,26 +109,23 @@
             margin-top: 10px;
         }
 
-        /* Teks "by nevaria" */
         .credit {
             margin-top: 20px;
             font-size: 0.8rem;
             color: #111;
             font-weight: bold;
             opacity: 0.8;
-            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Video Latar Belakang -->
-    <video class="bg-video" autoplay loop muted playsinline>
-        <source src="__Live_Wallpaper_Cartethyia__F_1790072341254_HD.mp4" type="video/mp4">
+    <!-- Tag Video dengan ID untuk dikontrol oleh JavaScript -->
+    <video id="bgVideo" autoplay loop muted playsinline preload="auto">
+        <source src="./__Live_Wallpaper_Cartethyia__F_1790072341254_HD.mp4" type="video/mp4">
         Browser Anda tidak mendukung tag video.
     </video>
 
-    <!-- UI Downloader -->
     <div class="box">
         <h2>TikTok Downloader</h2>
         <p class="desc">Tempelkan link video TikTok untuk mengunduh tanpa watermark:</p>
@@ -162,11 +143,18 @@
             <a id="downloadBtn" class="download-btn" target="_blank" download>Download Video MP4</a>
         </div>
 
-        <!-- Teks Nama / Credit -->
         <div class="credit">by nevaria</div>
     </div>
 
     <script>
+        // Memaksa video diputar saat halaman dibuka (Mengatasi pemblokiran browser HP)
+        document.addEventListener("DOMContentLoaded", function() {
+            const video = document.getElementById('bgVideo');
+            video.play().catch(error => {
+                console.log("Autoplay diblokir oleh browser, mencoba memutar ulang...", error);
+            });
+        });
+
         async function downloadTikTok() {
             const url = document.getElementById('tiktokUrl').value;
             const loading = document.getElementById('loading');
@@ -188,7 +176,6 @@
                     const data = resData.data;
                     document.getElementById('coverImg').src = data.cover;
                     document.getElementById('videoTitle').innerText = data.title;
-                    
                     document.getElementById('downloadBtn').href = data.play; 
 
                     loading.style.display = 'none';
