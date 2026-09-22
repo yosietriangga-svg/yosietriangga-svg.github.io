@@ -3,193 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Video Downloader</title>
+    <title>AniSearch - Mesin Pencari Anime</title>
+    <!-- Font Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        /* Video Latar Belakang */
-        #bgVideo {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -1;
-            background-color: #111; /* Warna hitam saat video loading */
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
+            color: #ffffff;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
             min-height: 100vh;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
+            overflow-x: hidden;
+            position: relative;
+            background-color: #0d0d0f;
         }
 
-        /* Kartu Konten Transparan */
-        .box {
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 30px 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        /* Video Live Wallpaper Background */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 380px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        h2 {
-            font-size: 1.6rem;
-            color: #111;
-            margin-bottom: 8px;
-        }
-
-        p.desc {
-            font-size: 0.88rem;
-            color: #222;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            font-size: 0.95rem;
-            outline: none;
-            color: #111;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .result {
-            margin-top: 20px;
-            display: none;
-        }
-
-        .download-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            margin-top: 12px;
-            font-weight: bold;
-        }
-
-        img {
-            width: 100%;
-            max-height: 180px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 10px;
-            margin-top: 10px;
+            z-index: -2;
         }
 
-        .credit {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #111;
-            font-weight: bold;
-            opacity: 0.8;
+        /* Overlay Gelap agar Teks Terbaca Jelas */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65); /* Transparansi overlay */
+            backdrop-filter: blur(3px); /* Efek blur halus */
+            z-index: -1;
+        }
+
+        /* Header Navigasi */
+        header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 30px;
+            gap: 20px;
+        }
+
+        header a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        header a:hover {
+            color: #ff4757;
+        }
+
+        /* Container Utama */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 20px;
+            margin-top: -30px;
+        }
+
+        /* Logo Anime Search */
+        .logo {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            user-select: none;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .logo span.ani {
+            color: #ff4757; /* Warna aksen anime */
+            text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
+        }
+
+        .logo span.search {
+            color: #ffffff;
+        }
+
+        /* Form & Search Box */
+        .search-form {
+            width: 100%;
+            max-width: 580px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(32, 33, 36, 0.75); /* Semi-transparan */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 12px 20px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .search-box:hover, .search-box:focus-within {
+            background: rgba(48, 49, 52, 0.85);
+            border-color: #ff4757;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
+        }
+
+        .search-box i {
+            color: #bdc1c6;
+            font-size: 18px;
+            margin-right: 12px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .search-box input::placeholder {
+            color: #aaa;
+        }
+
+        /* Tombol Pencarian */
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            background: rgba(48, 49, 52, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e8eaed;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            border-color: #ff4757;
+            color: #ff4757;
+            background: rgba(32, 33, 36, 0.9);
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+        }
+
+        /* Quick Links / Tag Anime */
+        .quick-tags {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #8ab4f8;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+
+        .tag:hover {
+            background-color: #ff4757;
+            color: #fff;
+            border-color: #ff4757;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(15, 15, 18, 0.85);
+            backdrop-filter: blur(10px);
+            color: #aaa;
+            font-size: 13px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            margin-left: 15px;
+            transition: 0.3s;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        /* Responsif untuk HP */
+        @media (max-width: 600px) {
+            .logo { font-size: 48px; }
+            .buttons { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+            footer { flex-direction: column; gap: 10px; text-align: center; }
+            footer a { margin: 0 5px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Tag Video dengan ID untuk dikontrol oleh JavaScript -->
-    <video id="bgVideo" autoplay loop muted playsinline preload="auto">
-        <source src="./__Live_Wallpaper_Cartethyia__F_1790072341254_HD.mp4" type="video/mp4">
+    <!-- Video Live Wallpaper Background -->
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="walpaper.mp4" type="video/mp4">
         Browser Anda tidak mendukung tag video.
     </video>
 
-    <div class="box">
-        <h2>TikTok Downloader</h2>
-        <p class="desc">Tempelkan link video TikTok untuk mengunduh tanpa watermark:</p>
-        
-        <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@..." required>
-        <button onclick="downloadTikTok()">Proses Video</button>
+    <!-- Overlay Gelap -->
+    <div class="video-overlay"></div>
 
-        <div id="loading" style="display:none; margin-top:15px; font-weight:bold; color:#0056b3;">
-            Memproses video...
+    <!-- Header Navigasi -->
+    <header>
+        <a href="https://myanimelist.net/topanime.php" target="_blank">Top Anime</a>
+        <a href="https://myanimelist.net/anime/season" target="_blank">Musim Ini</a>
+        <a href="https://myanimelist.net/manga.php" target="_blank">Manga</a>
+    </header>
+
+    <!-- Konten Utama (Pencarian) -->
+    <div class="main-container">
+        <!-- Logo AniSearch -->
+        <div class="logo">
+            <span class="ani">Ani</span><span class="search">Search</span>
         </div>
 
-        <div class="result" id="resultArea">
-            <img id="coverImg" src="" alt="Thumbnail Video">
-            <p id="videoTitle" style="font-size:13px; margin-top:8px; font-weight: 600; color: #111;"></p>
-            <a id="downloadBtn" class="download-btn" target="_blank" download>Download Video MP4</a>
-        </div>
+        <!-- Form Pencarian -->
+        <form class="search-form" id="searchForm">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Cari judul anime, karakter, atau genre..." required autocomplete="off">
+            </div>
 
-        <div class="credit">by nevaria</div>
+            <div class="buttons">
+                <button type="submit" class="btn">Penelusuran Anime</button>
+                <button type="button" class="btn" id="randomBtn">Saya Lagi Beruntung</button>
+            </div>
+        </form>
+
+        <!-- Shortcut Kategori Populer -->
+        <div class="quick-tags">
+            <a href="#" onclick="quickSearch('Action')" class="tag">#Action</a>
+            <a href="#" onclick="quickSearch('Isekai')" class="tag">#Isekai</a>
+            <a href="#" onclick="quickSearch('Romance')" class="tag">#Romance</a>
+            <a href="#" onclick="quickSearch('Shonen')" class="tag">#Shonen</a>
+            <a href="#" onclick="quickSearch('Fantasy')" class="tag">#Fantasy</a>
+        </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <div>&copy; 2026 AniSearch - Khusus Pencinta Anime</div>
+        <div>
+            <a href="https://myanimelist.net" target="_blank">MyAnimeList</a>
+            <a href="https://anilist.co" target="_blank">AniList</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Fungsi Pencarian -->
     <script>
-        // Memaksa video diputar saat halaman dibuka (Mengatasi pemblokiran browser HP)
-        document.addEventListener("DOMContentLoaded", function() {
-            const video = document.getElementById('bgVideo');
-            video.play().catch(error => {
-                console.log("Autoplay diblokir oleh browser, mencoba memutar ulang...", error);
-            });
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const randomBtn = document.getElementById('randomBtn');
+
+        // Submit Pencarian ke MyAnimeList
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            if (query) {
+                window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(query)}`, '_blank');
+            }
         });
 
-        async function downloadTikTok() {
-            const url = document.getElementById('tiktokUrl').value;
-            const loading = document.getElementById('loading');
-            const resultArea = document.getElementById('resultArea');
+        // Tombol Random / Musim Ini
+        randomBtn.addEventListener('click', function() {
+            window.open('https://myanimelist.net/anime/season', '_blank');
+        });
 
-            if (!url) {
-                alert("Masukkan URL TikTok terlebih dahulu!");
-                return;
-            }
-
-            loading.style.display = 'block';
-            resultArea.style.display = 'none';
-
-            try {
-                const response = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
-                const resData = await response.json();
-
-                if (resData.code === 0) {
-                    const data = resData.data;
-                    document.getElementById('coverImg').src = data.cover;
-                    document.getElementById('videoTitle').innerText = data.title;
-                    document.getElementById('downloadBtn').href = data.play; 
-
-                    loading.style.display = 'none';
-                    resultArea.style.display = 'block';
-                } else {
-                    alert("Gagal mengambil video. Pastikan link video TikTok valid/publik!");
-                    loading.style.display = 'none';
-                }
-            } catch (error) {
-                alert("Terjadi kesalahan sistem/koneksi.");
-                loading.style.display = 'none';
-            }
+        // Tag Cepat
+        function quickSearch(tag) {
+            searchInput.value = tag;
+            window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(tag)}`, '_blank');
         }
     </script>
-
 </body>
 </html>
