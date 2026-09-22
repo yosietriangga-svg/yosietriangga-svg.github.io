@@ -303,9 +303,9 @@
     <div class="video-overlay"></div>
 
     <header>
-        <a href="https://myanimelist.net/topanime.php" target="_blank">Top Anime</a>
-        <a href="https://myanimelist.net/anime/season" target="_blank">Musim Ini</a>
-        <a href="https://myanimelist.net/manga.php" target="_blank">Manga</a>
+        <a href="https://otakudesu.cloud/anime-list/" target="_blank">Daftar Anime</a>
+        <a href="https://otakudesu.cloud/ongoing-anime/" target="_blank">Ongoing</a>
+        <a href="https://otakudesu.cloud/complete-anime/" target="_blank">Complete</a>
     </header>
 
     <div class="main-container">
@@ -316,12 +316,12 @@
         <form class="search-form" id="searchForm">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Cari judul anime, karakter, atau genre..." required autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Cari judul anime di Otakudesu..." required autocomplete="off">
             </div>
 
             <div class="buttons">
                 <button type="submit" class="btn">Penelusuran Anime</button>
-                <button type="button" class="btn" id="randomBtn">Fall 2026</button>
+                <button type="button" class="btn" id="randomBtn">Ongoing Anime</button>
             </div>
         </form>
 
@@ -337,7 +337,7 @@
         <div class="about-card">
             <h3><i class="fa-solid fa-circle-info"></i> Tentang NevSearch</h3>
             <p>
-                <strong>NevSearch</strong> adalah mesin pencari praktis yang dirancang khusus untuk para pecinta anime. Cari judul anime favorit, karakter, hingga genre pilihan Anda secara cepat dan mudah. 
+                <strong>NevSearch</strong> adalah mesin pencari praktis yang dirancang khusus untuk para pecinta anime. Cari judul anime favorit Anda secara cepat dan langsung terhubung ke Otakudesu. 
                 Web ini dikembangkan oleh creator di balik channel YouTube <strong>Shinan Music</strong>.
             </p>
             <a href="https://youtube.com/@shinanmusic?si=pZhGmHSPJv2k6Uo3" target="_blank" class="youtube-btn">
@@ -349,8 +349,7 @@
     <footer>
         <div>&copy; 2026 NevSearch - Khusus Pencinta Anime</div>
         <div>
-            <a href="https://myanimelist.net" target="_blank">MyAnimeList</a>
-            <a href="https://anilist.co" target="_blank">AniList</a>
+            <a href="https://otakudesu.cloud" target="_blank">Otakudesu</a>
             <a href="https://youtube.com/@shinanmusic?si=pZhGmHSPJv2k6Uo3" target="_blank">YosieDev</a>
         </div>
     </footer>
@@ -360,25 +359,26 @@
         const searchInput = document.getElementById('searchInput');
         const randomBtn = document.getElementById('randomBtn');
 
-        // Submit Pencarian ke MyAnimeList
+        // Submit Pencarian ke Otakudesu
         searchForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const query = searchInput.value.trim();
             if (query) {
-                window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(query)}`, '_blank');
+                window.open(`https://otakudesu.cloud/?s=${encodeURIComponent(query)}&post_type=anime`, '_blank');
             }
         });
 
-        // Tombol Random / Musim Ini
+        // Tombol Ongoing Anime
         randomBtn.addEventListener('click', function() {
-            window.open('https://myanimelist.net/anime/season', '_blank');
+            window.open('https://otakudesu.cloud/ongoing-anime/', '_blank');
         });
 
-        // Tag Cepat
+        // Tag Cepat untuk Otakudesu
         function quickSearch(tag) {
             searchInput.value = tag;
-            window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(tag)}`, '_blank');
+            window.open(`https://otakudesu.cloud/?s=${encodeURIComponent(tag)}&post_type=anime`, '_blank');
         }
     </script>
 </body>
 </html>
+
