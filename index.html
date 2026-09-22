@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NevSearch - Nonton Anime Gratis & Cari Anime</title>
-    
+    <title>NevSearch - Mesin Pencari Anime</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ============================================================
-           1. RESET & GAYA DASAR
-           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -31,9 +26,7 @@
             background-color: #0d0d0f;
         }
 
-        /* ============================================================
-           2. LIVE WALLPAPER BACKGROUND
-           ============================================================ */
+        /* Video Live Wallpaper Background (Jelas tanpa blur) */
         .video-bg {
             position: fixed;
             top: 0;
@@ -44,19 +37,18 @@
             z-index: -2;
         }
 
+        /* Overlay Ekstra Tipis agar Video Sangat Jelas Terlihat */
         .video-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35); /* Transparansi tipis agar video tetap jelas */
+            background: rgba(0, 0, 0, 0.15); /* Sangat transparan */
             z-index: -1;
         }
 
-        /* ============================================================
-           3. HEADER NAVIGASI
-           ============================================================ */
+        /* Header Navigasi */
         header {
             display: flex;
             justify-content: flex-end;
@@ -70,17 +62,15 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            transition: 0.3s;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         header a:hover {
             color: #ff4757;
         }
 
-        /* ============================================================
-           4. UTAMA & PENCARIAN
-           ============================================================ */
+        /* Container Utama */
         .main-container {
             display: flex;
             flex-direction: column;
@@ -88,7 +78,7 @@
             justify-content: center;
             flex-grow: 1;
             padding: 20px;
-            margin-top: -30px;
+            margin-top: -10px;
         }
 
         /* Logo NevSearch */
@@ -110,7 +100,7 @@
             color: #ffffff;
         }
 
-        /* Kotak Pencarian */
+        /* Form & Search Box Transparan */
         .search-form {
             width: 100%;
             max-width: 580px;
@@ -122,24 +112,24 @@
         .search-box {
             display: flex;
             align-items: center;
-            background: rgba(20, 20, 25, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.35); /* Transparan */
+            backdrop-filter: blur(6px); /* Efek kaca transparan */
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 30px;
             padding: 12px 20px;
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
-        .search-box:hover, 
-        .search-box:focus-within {
-            background: rgba(30, 30, 35, 0.95);
+        .search-box:hover, .search-box:focus-within {
+            background: rgba(0, 0, 0, 0.5);
             border-color: #ff4757;
             box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
         }
 
         .search-box i {
-            color: #bdc1c6;
+            color: #e0e0e0;
             font-size: 18px;
             margin-right: 12px;
         }
@@ -148,16 +138,16 @@
             background: transparent;
             border: none;
             outline: none;
-            color: #ffffff;
+            color: #fff;
             font-size: 16px;
             width: 100%;
         }
 
         .search-box input::placeholder {
-            color: #aaaaaa;
+            color: #ccc;
         }
 
-        /* Tombol Aksi */
+        /* Tombol Transparan */
         .buttons {
             margin-top: 25px;
             display: flex;
@@ -165,26 +155,28 @@
         }
 
         .btn {
-            background: rgba(30, 30, 35, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e8eaed;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
             padding: 10px 20px;
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: 0.3s;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
         .btn:hover {
             border-color: #ff4757;
             color: #ff4757;
-            background: rgba(20, 20, 25, 0.95);
+            background: rgba(0, 0, 0, 0.65);
             box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
         }
 
-        /* Tag Kategori Cepat */
+        /* Tag Transparan */
         .quick-tags {
-            margin-top: 30px;
+            margin-top: 25px;
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
@@ -192,71 +184,112 @@
         }
 
         .tag {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
             color: #8ab4f8;
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            transition: 0.3s;
         }
 
         .tag:hover {
             background-color: #ff4757;
-            color: #ffffff;
+            color: #fff;
             border-color: #ff4757;
             box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
         }
 
-        /* ============================================================
-           5. FOOTER
-           ============================================================ */
+        /* Kolom Deskripsi Transparan / Glassmorphism */
+        .about-card {
+            margin-top: 35px;
+            max-width: 580px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Latar transparan */
+            backdrop-filter: blur(8px); /* Efek blur kaca */
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-card h3 {
+            font-size: 18px;
+            color: #ff4757;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .about-card p {
+            font-size: 13px;
+            color: #f1f1f1;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .youtube-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+        }
+
+        .youtube-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Footer Transparan */
         footer {
-            background: rgba(10, 10, 12, 0.9);
-            color: #aaaaaa;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+            color: #ddd;
             font-size: 13px;
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         footer a {
-            color: #aaaaaa;
+            color: #ddd;
             text-decoration: none;
             margin-left: 15px;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
 
         footer a:hover {
-            color: #ffffff;
+            color: #fff;
         }
 
-        /* ============================================================
-           6. RESPONSIVE DESIGN (HP & TABLET)
-           ============================================================ */
+        /* Responsif untuk HP */
         @media (max-width: 600px) {
-            .logo {
-                font-size: 48px;
-            }
-            .buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-            .btn {
-                width: 100%;
-            }
-            footer {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            footer a {
-                margin: 0 5px;
-            }
+            .logo { font-size: 48px; }
+            .buttons { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+            footer { flex-direction: column; gap: 10px; text-align: center; }
+            footer a { margin: 0 5px; }
         }
     </style>
 </head>
@@ -264,20 +297,18 @@
 
     <video class="video-bg" autoplay loop muted playsinline>
         <source src="walpaper.mp4" type="video/mp4">
-        Browser Anda tidak mendukung elemen video.
+        Browser Anda tidak mendukung tag video.
     </video>
 
     <div class="video-overlay"></div>
 
     <header>
-        <a href="https://www.bilibili.tv/id/index" target="_blank">
-            <i class="fa-solid fa-play"></i> Streaming BStation
-        </a>
         <a href="https://myanimelist.net/topanime.php" target="_blank">Top Anime</a>
         <a href="https://myanimelist.net/anime/season" target="_blank">Musim Ini</a>
+        <a href="https://myanimelist.net/manga.php" target="_blank">Manga</a>
     </header>
 
-    <main class="main-container">
+    <div class="main-container">
         <div class="logo">
             <span class="nev">Nev</span><span class="search">Search</span>
         </div>
@@ -285,64 +316,68 @@
         <form class="search-form" id="searchForm">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Cari anime untuk ditonton gratis..." required autocomplete="off">
+                <input type="text" id="searchInput" placeholder="Cari judul anime, karakter, atau genre..." required autocomplete="off">
             </div>
 
             <div class="buttons">
-                <button type="submit" class="btn">
-                    <i class="fa-solid fa-play"></i> Tonton Gratis
-                </button>
-                <button type="button" class="btn" id="infoBtn">
-                    <i class="fa-solid fa-circle-info"></i> Info MAL
-                </button>
+                <button type="submit" class="btn">Penelusuran Anime</button>
+                <button type="button" class="btn" id="randomBtn">Saya Lagi Beruntung</button>
             </div>
         </form>
 
         <div class="quick-tags">
-            <span onclick="quickWatch('Solo Leveling')" class="tag">#Solo Leveling</span>
-            <span onclick="quickWatch('One Piece')" class="tag">#One Piece</span>
-            <span onclick="quickWatch('Jujutsu Kaisen')" class="tag">#Jujutsu Kaisen</span>
-            <span onclick="quickWatch('Demon Slayer')" class="tag">#Demon Slayer</span>
-            <span onclick="quickWatch('Naruto')" class="tag">#Naruto</span>
+            <a href="#" onclick="quickSearch('Action')" class="tag">#Action</a>
+            <a href="#" onclick="quickSearch('Isekai')" class="tag">#Isekai</a>
+            <a href="#" onclick="quickSearch('Romance')" class="tag">#Romance</a>
+            <a href="#" onclick="quickSearch('Shonen')" class="tag">#Shonen</a>
+            <a href="#" onclick="quickSearch('Fantasy')" class="tag">#Fantasy</a>
         </div>
-    </main>
+
+        <!-- Kolom Deskripsi Transparan -->
+        <div class="about-card">
+            <h3><i class="fa-solid fa-circle-info"></i> Tentang NevSearch</h3>
+            <p>
+                <strong>NevSearch</strong> adalah mesin pencari praktis yang dirancang khusus untuk para pecinta anime. Cari judul anime favorit, karakter, hingga genre pilihan Anda secara cepat dan mudah. 
+                Web ini dikembangkan oleh creator di balik channel YouTube <strong>Shinan Music</strong>.
+            </p>
+            <a href="https://youtube.com/@shinanmusic?si=pZhGmHSPJv2k6Uo3" target="_blank" class="youtube-btn">
+                <i class="fa-brands fa-youtube"></i> Kunjungi Shinan Music
+            </a>
+        </div>
+    </div>
 
     <footer>
-        <div>&copy; 2026 NevSearch - Penelusuran & Streaming Anime Gratis</div>
+        <div>&copy; 2026 NevSearch - Khusus Pencinta Anime</div>
         <div>
-            <a href="https://www.bilibili.tv" target="_blank">Bilibili</a>
             <a href="https://myanimelist.net" target="_blank">MyAnimeList</a>
+            <a href="https://anilist.co" target="_blank">AniList</a>
+            <a href="https://youtube.com/@shinanmusic?si=pZhGmHSPJv2k6Uo3" target="_blank">YouTube Pembuat</a>
         </div>
     </footer>
 
     <script>
         const searchForm = document.getElementById('searchForm');
         const searchInput = document.getElementById('searchInput');
-        const infoBtn = document.getElementById('infoBtn');
+        const randomBtn = document.getElementById('randomBtn');
 
-        // Fungsi Tonton Gratis (Mencari anime langsung di Bilibili/BStation)
+        // Submit Pencarian ke MyAnimeList
         searchForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const query = searchInput.value.trim();
             if (query) {
-                window.open(`https://www.bilibili.tv/id/search-result?q=${encodeURIComponent(query)}`, '_blank');
-            }
-        });
-
-        // Fungsi Cek Detail/Informasi Anime di MyAnimeList
-        infoBtn.addEventListener('click', function() {
-            const query = searchInput.value.trim();
-            if (query) {
                 window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(query)}`, '_blank');
-            } else {
-                window.open('https://myanimelist.net/anime/season', '_blank');
             }
         });
 
-        // Fungsi Klik Shortcut Tag
-        function quickWatch(title) {
-            searchInput.value = title;
-            window.open(`https://www.bilibili.tv/id/search-result?q=${encodeURIComponent(title)}`, '_blank');
+        // Tombol Random / Musim Ini
+        randomBtn.addEventListener('click', function() {
+            window.open('https://myanimelist.net/anime/season', '_blank');
+        });
+
+        // Tag Cepat
+        function quickSearch(tag) {
+            searchInput.value = tag;
+            window.open(`https://myanimelist.net/anime.php?q=${encodeURIComponent(tag)}`, '_blank');
         }
     </script>
 </body>
