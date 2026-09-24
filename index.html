@@ -20,46 +20,44 @@
             min-height: 100vh;
             padding: 20px;
             overflow: hidden;
-            background-color: #121212; /* Warna latar belakang jika video gagal diputar */
+            background-color: #000000;
         }
 
-        /* Styling Live Video Wallpaper */
+        /* Styling Live Video Wallpaper Pas di Layar HP */
         #bg-video {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: -1;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
+            object-fit: contain;
+            background-color: #000000;
             pointer-events: none;
         }
 
-        /* Overlay gelap halus di atas video agar kartu UI lebih terlihat */
+        /* Overlay gelap transparan halus */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.25);
             z-index: 0;
             pointer-events: none;
         }
 
-        /* Container dengan tampilan Glassmorphism (Transparan) */
+        /* Container Glassmorphism */
         .container {
             position: relative;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             width: 100%;
             max-width: 500px;
             text-align: center;
@@ -188,12 +186,12 @@
 </head>
 <body>
 
-<!-- Live Wallpaper Video -->
+<!-- Live Video Wallpaper -->
 <video autoplay muted loop playsinline id="bg-video">
     <source src="./walpaper.mp4" type="video/mp4">
 </video>
 
-<!-- Lapisan Overlay Gelap Halus -->
+<!-- Overlay -->
 <div class="overlay"></div>
 
 <div class="container">
@@ -220,13 +218,12 @@
 </div>
 
 <script>
-    // Memaksa video berputar secara otomatis di HP/Browser
     document.addEventListener('DOMContentLoaded', () => {
         const video = document.getElementById('bg-video');
         if (video) {
             video.muted = true;
             video.play().catch(error => {
-                console.log("Autoplay dicegah oleh browser:", error);
+                console.log("Autoplay ditahan browser:", error);
             });
         }
     });
