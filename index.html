@@ -19,7 +19,8 @@
             align-items: center;
             min-height: 100dvh;
             padding: 20px;
-            overflow: hidden;
+            /* Mengizinkan scroll di halaman jika diperlukan */
+            overflow-y: auto;
             background-color: #000000;
         }
 
@@ -59,8 +60,20 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             width: 100%;
             max-width: 500px;
+            /* Batasi tinggi maksimal container & aktifkan scroll internal jika teks panjang */
+            max-height: 90vh;
+            overflow-y: auto;
             text-align: center;
             z-index: 1;
+        }
+
+        /* Kustomisasi scrollbar agar tetap estetis */
+        .container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
         }
 
         h2 {
@@ -142,10 +155,12 @@
         }
 
         .result h3 {
-            font-size: 15px;
+            font-size: 14px;
+            line-height: 1.5;
             color: #ffffff;
             margin-bottom: 15px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            word-wrap: break-word;
         }
 
         .download-buttons {
